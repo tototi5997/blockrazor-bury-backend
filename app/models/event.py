@@ -5,7 +5,7 @@ Base = declarative_base()
 
 
 class Event(Base):
-    __tablename__ = 'event'
+    __tablename__ = "event"
     event_id = Column(BigInteger, primary_key=True, autoincrement=True)
     visitor_id = Column(String(64))
     ip_address = Column(String(45))

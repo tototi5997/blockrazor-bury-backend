@@ -3,12 +3,14 @@ from app.models.event import Event
 from app.schemas.event import EventCreate
 
 
-def get_events(db: Session,
-               page: int = 0,
-               page_size: int = 10,
-               visitor_id=None,
-               ip_address=None,
-               page_url=None):
+def get_events(
+    db: Session,
+    page: int = 0,
+    page_size: int = 10,
+    visitor_id=None,
+    ip_address=None,
+    page_url=None,
+):
     offset = (page - 1) * page_size
     query = db.query(Event)
     if visitor_id:

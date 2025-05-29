@@ -5,7 +5,7 @@ Base = declarative_base()
 
 
 class Visitor(Base):
-    __tablename__ = 'visitor'
+    __tablename__ = "visitor"
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     visitor_id = Column(String(64), nullable=False)

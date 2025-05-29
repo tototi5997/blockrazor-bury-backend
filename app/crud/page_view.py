@@ -1,14 +1,17 @@
 from sqlalchemy.orm import Session
 from app.models.page_view import PageView
 from app.schemas.page_view import PageViewCreate, PageViewUpdate
+from sqlalchemy import func
 
 
-def get_page_views(db: Session,
-                   page: int = 0,
-                   page_size: int = 100,
-                   visitor_id=None,
-                   ip_address=None,
-                   page_url=None):
+def get_page_views(
+    db: Session,
+    page: int = 0,
+    page_size: int = 100,
+    visitor_id=None,
+    ip_address=None,
+    page_url=None,
+):
     offset = (page - 1) * page_size
     query = db.query(PageView)
     if visitor_id:
@@ -30,10 +33,8 @@ def create_page_view(db: Session, page_view_in: PageViewCreate):
     return db_page_view
 
 
-def update_page_view(db: Session, page_view_id: int,
-                     page_view_in: PageViewUpdate):
-    db_page_view = db.query(PageView).filter(
-        PageView.view_id == page_view_id).first()
+def update_page_view(db: Session, page_view_id: int, page_view_in: PageViewUpdate):
+    db_page_view = db.query(PageView).filter(PageView.view_id == page_view_id).first()
 
     if not db_page_view:
         return None
@@ -45,3 +46,13 @@ def update_page_view(db: Session, page_view_id: int,
     db.commit()
     db.refresh(db_page_view)
     return db_page_view
+
+
+def count_page_view(db: Session):
+    rows = (
+        db.query(PageView.page_url, func.count(PageView.view_id).label("count"))
+        .group_by(PageView.page_url)
+        .order_by(func.count(PageView.view_id).desc())
+        .all()
+    )
+    return rows

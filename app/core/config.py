@@ -20,4 +20,5 @@ password = urllib.parse.quote_plus(settings.MYSQL_PASSWORD)
 
 DATABASE_URL = (
     f"mysql+pymysql://{settings.MYSQL_USER}:{password}"
-    f"@{settings.MYSQL_HOST}:{settings.MYSQL_PORT}/{settings.MYSQL_DB}")
+    f"@{settings.MYSQL_HOST}:{settings.MYSQL_PORT}/{settings.MYSQL_DB}"
+)

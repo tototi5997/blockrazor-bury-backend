@@ -5,7 +5,7 @@ Base = declarative_base()
 
 
 class PageView(Base):
-    __tablename__ = 'page_view'
+    __tablename__ = "page_view"
 
     view_id = Column(BigInteger, primary_key=True, autoincrement=True)
     visitor_id = Column(String(64), index=True)

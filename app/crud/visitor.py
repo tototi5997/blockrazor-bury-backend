@@ -14,17 +14,20 @@ def get_visitors(db: Session, page: int = 1, page_size: int = 10):
 
 def create_visitor(db: Session, visitor: VisitorCreate, ip_address: str):
     today = date.today()
-    db_visitor = db.query(Visitor).filter_by(visitor_id=visitor.visitor_id,
-                                             date=today).first()
+    db_visitor = (
+        db.query(Visitor).filter_by(visitor_id=visitor.visitor_id, date=today).first()
+    )
 
     if db_visitor:
         db_visitor.visit_count += 1
     else:
-        db_visitor = Visitor(visitor_id=visitor.visitor_id,
-                             ip_address=ip_address,
-                             visit_count=1,
-                             type=visitor.type,
-                             date=today)
+        db_visitor = Visitor(
+            visitor_id=visitor.visitor_id,
+            ip_address=ip_address,
+            visit_count=1,
+            type=visitor.type,
+            date=today,
+        )
         db.add(db_visitor)
 
     db.commit()
@@ -37,14 +40,19 @@ def find_visitor(db: Session, visitor_id: str):
 
 
 def count_visitor_by_type(db: Session, type: str):
-    total = db.query(func.sum(
-        Visitor.visit_count)).filter_by(type=type).scalar()
+    total = db.query(func.sum(Visitor.visit_count)).filter_by(type=type).scalar()
     return total or 0
 
 
 def get_visitor_trands(db: Session):
-    rows = db.query(
-        Visitor.date, Visitor.type,
-        func.sum(Visitor.visit_count).label("visit_count")).group_by(
-            Visitor.date, Visitor.type).order_by(Visitor.date).all()
+    rows = (
+        db.query(
+            Visitor.date,
+            Visitor.type,
+            func.sum(Visitor.visit_count).label("visit_count"),
+        )
+        .group_by(Visitor.date, Visitor.type)
+        .order_by(Visitor.date)
+        .all()
+    )
     return rows
