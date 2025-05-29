@@ -22,7 +22,7 @@ def create_visitor(visitor: VisitorCreate,
                    request: Request,
                    db: Session = Depends(get_db)):
     ip_address = get_client_ip(request)
-    visitor = visitor_crud.create_visitor(db, visitor, ip_address)
+    visitor_crud.create_visitor(db, visitor, ip_address)
     return Reponse(data=None, message='成功')
 
 

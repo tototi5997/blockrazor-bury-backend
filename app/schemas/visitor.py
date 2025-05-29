@@ -9,6 +9,7 @@ class VisitorCreate(BaseModel):
 
 
 class VisitorOut(BaseModel):
+    id: int
     visitor_id: str
     ip_address: str
     visit_count: int
@@ -25,3 +26,9 @@ class VisitorListOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class VisitorCountOut(BaseModel):
+    blockrazor: int
+    scutum: int
+    count: int
